@@ -10,15 +10,6 @@ Original file is located at
 ### **Deep Learning Based Semeantic Segmentation of Bone Fragments in CT Scans**
 """
 
-# Mount google drive
-from google.colab import drive
-drive.mount('/content/drive')
-
-# pip install the required packages
-!pip install segmentation-models-3D
-!pip install keras_applications
-!pip install keras_preprocessing
-
 # imports
 import numpy as np
 import tensorflow as tf
@@ -30,13 +21,13 @@ from sklearn.model_selection import train_test_split
 import segmentation_models_3D as sm
 
 # folder paths for the training, validation and test dataset
-thesis_folder = '/content/drive/MyDrive/Colab Notebooks/thesis/'
-data_path = os.path.join(thesis_folder, "crop_data")
-x_path = os.path.join(data_path, 'data_X')
-y_path = os.path.join(data_path, 'data_Y')
+code_folder = os.getcwd()
+# data_path = os.path.join(code_folder, "crop_data")
+x_path = os.path.join(code_folder, 'data_X')
+y_path = os.path.join(code_folder, 'data_Y')
 paths = (x_path, y_path)
-saved_models_path = os.path.join(thesis_folder,'saved_models')
-sys.path.append(os.path.join(thesis_folder))
+saved_models_path = os.path.join(code_folder,'saved_models')
+# sys.path.append(os.path.join(code_folder))
 import preprocess as pp
 import unet3d as un3
 import postprocess as po
@@ -46,18 +37,12 @@ import postprocess as po
 
 # pp.resize_depth_shape = (144, 102, 320) # original (mostly) 144, 102, 302
 # pp.req_height_width = (128, 128)
-X_data, Y_data = pp.get_all_data(paths, preprocess=True, expand_dim=False, verbose=False, norm_option='z_norm')
+X_data, Y_data = pp.get_all_data(paths, preprocess=True, expand_dim=True, verbose=False, norm_option='standard_norm')
 
 # to check the pre-processed volumes and masks - for this the expand_dim above should be set to false (3d and not categorical)
-pp.plot_all_data(X_data, Y_data, sample_start=0, sample_end=3, slices_start=175, slices_end=180)
-
-# to check the pre-processed volumes and masks - for this the expand_dim above should be set to false (3d and not categorical)
-slices_start = 175
-slices_end = 180
-for i in range(3):
-    for j in range(slices_start, slices_end):
-        pp.plot_vols_masks(X_data, Y_data, i, j)
-        plt.title(f"{i + 1} - {j + 1}")
+plot_data = False
+if plot_data:
+    pp.plot_all_data(X_data, Y_data, sample_start=0, sample_end=3, slices_start=175, slices_end=180)
 
 # splitting of the data
 # training - testing
