@@ -125,33 +125,41 @@ def model_predictions(model, test_X, test_Y_cat, make_nifti:bool=False):
 
 # Plotting functions
 # plot GD and predictions
-def plot_truth_pred_cat(test_Y_cat, preds_cat, class_ind:int, sample_ind:int, slice_start:int,  slice_end:int):
+def plot_truth_pred_cat(test_X, test_Y_cat, preds_cat, class_ind:int, sample_ind:int, slice_start:int,  slice_end:int):
         for i in range(slice_start, slice_end):
-            fig, ax = plt.subplots(1, 2, figsize=(4, 4))
-            ax[0].imshow(test_Y_cat[sample_ind][:, :, i, class_ind])
-            ax[0].set_title('ground truth')
+            fig, ax = plt.subplots(1, 3, figsize=(6, 6))
+
+            ax[0].imshow(test_X[sample_ind][:, :, i])
+            ax[0].set_title('ct_volume')
+
+            ax[1].imshow(test_Y_cat[sample_ind][:, :, i, class_ind])
+            ax[1].set_title('ground truth')
             # plt.subplot(1, 3, 1)
             # plt.imshow(image)
             # plt.title('Image')
 
-            ax[1].imshow(preds_cat[sample_ind][:, :, i, class_ind])
-            ax[1].set_title('predicted')
+            ax[2].imshow(preds_cat[sample_ind][:, :, i, class_ind])
+            ax[2].set_title('predicted')
             # plt.subplot(1, 3, 3)
             # plt.imshow(mask)
             # plt.title('Predicted Mask')
             plt.tight_layout()
 
-def plot_truth_pred_3d(test_Y_3d, preds_3d, sample_ind:int, slice_start:int, slice_end:int):
+def plot_truth_pred_3d(test_X, test_Y_3d, preds_3d, sample_ind:int, slice_start:int, slice_end:int):
         for i in range(slice_start, slice_end):
-            fig, ax = plt.subplots(1, 2, figsize=(4, 4))
-            ax[0].imshow(test_Y_3d[sample_ind][:, :, i])
-            ax[0].set_title('ground truth')
+            fig, ax = plt.subplots(1, 3, figsize=(6, 6))
+
+            ax[0].imshow(test_X[sample_ind][:, :, i])
+            ax[0].set_title('ct_volume')
+
+            ax[1].imshow(test_Y_3d[sample_ind][:, :, i])
+            ax[1].set_title('ground truth')
             # plt.subplot(1, 3, 1)
             # plt.imshow(image)
             # plt.title('Image')
 
-            ax[1].imshow(preds_3d[sample_ind][:, :, i])
-            ax[1].set_title('predicted')
+            ax[2].imshow(preds_3d[sample_ind][:, :, i])
+            ax[2].set_title('predicted')
             # plt.subplot(1, 3, 3)
             # plt.imshow(mask)
             # plt.title('Predicted Mask')
