@@ -9,9 +9,9 @@ from matplotlib import pyplot as plt
 import segmentation_models_3D as sm
 from natsort import natsorted
 
-files_path = os.path.join(os.getcwd(), "drive", "MyDrive", "Colab Notebooks", "thesis")
-import sys
-sys.path.append(files_path)
+# files_path = os.path.join(os.getcwd(), "drive", "MyDrive", "Colab Notebooks", "thesis")
+# import sys
+# sys.path.append(files_path)
 
 import preprocess as pp
 
@@ -39,7 +39,7 @@ def model_load(model_type:str, model_name:str, save_model_dir:str):
                                                                                'iou_score': sm.metrics.IOUScore(),
                                                                                'f1-score': sm.metrics.FScore()})
     elif model_type == "unet_wo_bbone":
-        model_loaded = tf.keras.models.load_model(s.path.join(saved_model_folder_path, (model_name + '.h5')))
+        model_loaded = tf.keras.models.load_model(os.path.join(saved_model_folder_path, (model_name + '.h5')))
     
     print("model successfully loaded")
     
@@ -55,6 +55,7 @@ def model_plots(model_history, fig_size=(10, 10)):
             ax[row, col].plot(np.arange(1, (len(model_history.history[keys[0, 0]]) + 1), 1), model_history.history[keys[row, col]])
             ax[row, col].set_title(keys[row, col])
             ax[row, col].set_xlabel("epochs")
+            ax[row, col].set_ylim(bottom=0)
 
 # get label values
 def get_labels(true_masks, pred_masks):
@@ -71,7 +72,11 @@ def revert_categorical(pred_cat):
 
 # convert prediction to nifti
 def convert_to_nifti(preds_3d:np.array, model_name:str, save_model_dir:str):
+    if not os.path.exists(save_model_dir):
+        os.mkdir(save_model_dir)
     saved_model_folder_path = os.path.join(save_model_dir, model_name)
+    if not os.path.exists(saved_model_folder_path):
+        os.mkdir(saved_model_folder_path)
     for i in range(len(preds_3d)):
         img = nib.Nifti1Image(preds_3d[i], np.eye(4))
         # img = nib.Nifti1Image(preds_3d, ct_vol.affine)

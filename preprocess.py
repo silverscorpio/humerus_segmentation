@@ -8,6 +8,8 @@ from matplotlib import pyplot as plt
 
 resize_depth_shape = (144, 102, 320)
 req_height_width = (128, 128)
+win_wid = 1000
+win_level = 400
 
 color_dict = {0: 'background',
               1: 'blue',
@@ -20,13 +22,15 @@ def preprocess_ct(ct_scan:np.array, norm_option:int='standard_norm'):
     
     ct_scan.resize(resize_depth_shape, refcheck=False)
     ct_scan = tf.image.resize(ct_scan, (req_height_width[0], req_height_width[1])).numpy()
-
-    win_wid = 1000
-    win_level = 400
+    
+    # win_wid = 1000
+    # win_level = 400
     range_max = win_level + (win_wid / 2)
     range_min = win_level - (win_wid / 2)
+
     ct_scan[ct_scan <= range_min] = range_min
     ct_scan[ct_scan >= range_max] = range_max
+
     if norm_option == 'standard_norm':
         ct_scan = (ct_scan - range_min) / (range_max - range_min)
     elif norm_option == 'mean_norm':
@@ -109,6 +113,7 @@ def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbos
             ct_seg_data = preprocess_ct_seg(ct_seg_data)
         if expand_dim:
             ct_seg_data = expand_categ_seg(ct_seg_data)
+            
         
         Y_data.append(ct_seg_data)
 
@@ -135,7 +140,7 @@ def generate_data(X_data, Y_data, train_ratio:float):
 
 
 # for plotting from the original combined datasets
-def plot_vols_masks(X_data:np.array, Y_data:np.array, vol_ind:int, slice_index:int):
+def plot_vols_masks(X_data:np.array, Y_data:np.array, vol_ind:int, slice_index:int, class_ind:int):
     fig, ax = plt.subplots(1, 2, figsize=(4, 4))
     ax[0].imshow(X_data[vol_ind][:, :, slice_index])
     ax[0].set_title(f'{vol_ind + 1}: Volume')
@@ -143,7 +148,7 @@ def plot_vols_masks(X_data:np.array, Y_data:np.array, vol_ind:int, slice_index:i
     # plt.imshow(image)
     # plt.title('Volume')
 
-    ax[1].imshow(Y_data[vol_ind][:, :, slice_index])
+    ax[1].imshow(Y_data[vol_ind][:, :, slice_index, class_ind])
     ax[1].set_title(f'{vol_ind+ 1}: Mask')
     # plt.subplot(1, 3, 2)
     # plt.imshow(actual_gray)
@@ -151,10 +156,10 @@ def plot_vols_masks(X_data:np.array, Y_data:np.array, vol_ind:int, slice_index:i
     plt.tight_layout()
 
 # to check the pre-processed volumes and masks - for this the expand_dim above should be set to false (3d and not categorical)
-def plot_all_data(X_data:np.array, Y_data:np.array, sample_start:int, sample_end:int, slices_start:int, slices_end:int):
+def plot_all_data(X_data:np.array, Y_data:np.array, sample_start:int, sample_end:int, slices_start:int, slices_end:int, class_ind:int):
     for i in range(sample_start, sample_end):
         for j in range(slices_start, slices_end):
-            plot_vols_masks(X_data, Y_data, i, j)
+            plot_vols_masks(X_data, Y_data, i, j, class_ind)
             plt.title(f"{i + 1} - {j + 1}")
 
 
