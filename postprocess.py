@@ -48,8 +48,8 @@ def model_plots(model_history, fig_size=(10, 10)):
     fig_dict = {6: (2, 3), 4: (2, 2)}
     keys = np.asarray(list(model_history.history.keys()))
     keys = keys.reshape(fig_dict[keys.size])
-    fig, ax = plt.subplots(fig_dict[keys.size][0], fig_dict[keys.size][0], figsize=fig_size)
-    for row in range(0, fig_dict[keys.size][1]):
+    fig, ax = plt.subplots(fig_dict[keys.size][0], fig_dict[keys.size][1], figsize=fig_size)
+    for row in range(0, fig_dict[keys.size][0]):
         for col in range(0, fig_dict[keys.size][1]):
             ax[row, col].plot(np.arange(1, (len(model_history.history[keys[0, 0]]) + 1), 1), model_history.history[keys[row, col]])
             ax[row, col].set_title(keys[row, col])
