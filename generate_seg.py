@@ -1,8 +1,14 @@
+# generates the segmentation file in the nifti format for each color (if present) (RGBY) and saves it in the specified folder
+# this script requires 3D-slicer and should be placed in the same directory where 3D-slicer is installed
+# please refer to the documentation of 3D-slicer for more details
+
+# imports 
 import slicer
 import os
 from natsort import natsorted
 import shutil
 
+# functions
 def load_model(path):
 	bone_model = slicer.util.loadModel(path)
 	bone_model_name = bone_model.GetName()
@@ -101,4 +107,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-

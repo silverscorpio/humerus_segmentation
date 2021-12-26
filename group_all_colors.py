@@ -1,7 +1,13 @@
+# group all the segments of all colours into one single segmentation file
+# this script requires 3D-slicer and should be placed in the same directory where 3D-slicer is installed
+# please refer to the documentation of 3D-slicer for more details
+
+# imports
 import slicer
 import os
 import shutil
 
+# functions
 def load_model(path, color):
 	bone_model = slicer.util.loadModel(path)
 	bone_model.GetDisplayNode().SetColor(color_vals[color][0], color_vals[color][1], color_vals[color][2])
@@ -68,6 +74,19 @@ def clear_scene():
 
 # main
 def main():
+	"""
+
+	Performs the combination of all the segments for all the colors and from the corresponding folder of the sample, 
+	removes the individual segments and generates the single segmentation file in the nifti format and copies it to the specified folder
+
+	Inputs:
+		none, as all the colors (RGBY) are considered and processed to their corresponding segmentation nifti file
+
+	Outputs:
+		returns nothing, however removes all the individual segments for all the colors and generates the final combined segmentation in the given folder
+		updates the user accordingly with clarifying print statements
+
+	"""
 	# clear_console()
 	clear_scene()
 	slicer.util.selectModule("Data")
@@ -126,4 +145,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-

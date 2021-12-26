@@ -1,11 +1,6 @@
-### Thesis Code | Author: Rajat Sharma ###
-
-'''
-
-Code to group each CT scan with its corresponding files for bone fragments together in one folder
-The folder named dataset should exist with all the files in it which need to be sorted
-
-'''
+# original data given was just all files together in one folder and thus re-organisation was required
+# Code to group each CT scan with its corresponding files for bone fragments together in one folder
+# The folder named dataset should exist with all the files in it which need to be sorted
 
 # imports
 import os, shutil
@@ -45,4 +40,3 @@ for i in range(len(files)):
         os.mkdir(os.path.join(DATA_PATH, str(files[i][0:digfiles[i]])))
         shutil.move(os.path.join(DATA_PATH, files[i]), 
                     os.path.join(DATA_PATH, str(files[i][0:digfiles[i]])))
-

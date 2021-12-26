@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-### **Author @Rajat Sharma** ###
-### **Deep Learning Based Semeantic Segmentation of Bone Fragments in CT Scans**
-
-# imports
+# imports (standard)
+# for segmentation models to be imported successfully, keras applications and keras_preprocessing need to be installed
 import numpy as np
 import tensorflow as tf
 from matplotlib import pyplot as plt
@@ -13,44 +10,45 @@ from sklearn.model_selection import train_test_split
 import segmentation_models_3D as sm
 
 # folder paths for the training, validation and test dataset
-
 code_folder = os.getcwd()
 x_path = os.path.join(code_folder, 'data_X')
 y_path = os.path.join(code_folder, 'data_Y')
 paths = (x_path, y_path)
 saved_models_path = os.path.join(code_folder,'saved_models')
 
+# import the preprocess, unet3d and postprocess based on the folders above
 import preprocess as pp
 import unet3d as un3
 import postprocess as po
 
-# only if different dimensions required
-# these two parameters are set to default values as shown below
-pp.resize_depth_shape = (144, 102, 320) # original (mostly) 144, 102, 302
-pp.req_height_width = (128, 128) # 128 128
+# only if different values are required for these parameters (set to default as mentioned)
+pp.resize_depth_shape = (144, 102, 320)
+pp.req_height_width = (128, 128)
 pp.win_wid_val = 1000
 pp.win_level_val = 400
 
+# load the X_data (ct-scans) and Y_data (masks)
 X_data, Y_data = pp.get_all_data(paths, preprocess=True, expand_dim=True, verbose=False, norm_option='mean_norm')
 
-# to check the pre-processed volumes and masks - for this the expand_dim above should be set to false (3d and not categorical) (CHANGED)
-plot_data = True
+# sanity check for the pre-processed volumes and masks
+plot_data = False
 if plot_data:
     pp.plot_all_data(X_data, Y_data, sample_start=7, sample_end=9, slices_start=140, slices_end=145, class_ind=1)
 
 # splitting of the data
-# training - testing
+
+# training - testing split
 train_test_ratio = 0.95
 train_X, train_Y, test_X, test_Y = pp.generate_data(X_data, Y_data, train_test_ratio)
 
 # to recover the memory (delete original arrays)
 del X_data, Y_data
 
-# training - validation
+# training - validation split
 train_val_ratio = 0.9
 train_X, train_Y, val_X, val_Y = pp.generate_data(train_X, train_Y, train_val_ratio)
 
-# sanity check for shape and number of samples
+# sanity check for shape and number of samples in each type of dataset
 print(f"""
 TRAINING SET: 
     X: {train_X.shape}
@@ -74,7 +72,7 @@ dropout_val = 0.2
 img_dim = (train_X[0].shape[0], train_X[0].shape[1], train_X[0].shape[2], train_X[0].shape[3])
 model_params_str = str(no_epochs) + '_' + str(b_size) + '_' + "{:.0e}".format(learn_rate) + '_' + str(dropout_val)
 
-# model building and running (2 methods)
+# model building and training (two methods)
 def model_train(model_type:str, 
                 num_classes:int, 
                 lr:float, 
@@ -84,7 +82,23 @@ def model_train(model_type:str,
                 img_shape:tuple,
                 shuffle_bool:bool
                 ): # tuple (h, w, d, c)
+    """
+    Performs the model training depending on the chosen method (transfer learning (1) or unet from scratch)
 
+    Inputs: 
+        model_type: unet with backbone for the encode part or unet from scratch
+        num_classes: the number of classes in each sample
+        lr: learning rate
+        batch: batch size for training
+        num_epochs: number of epochs for training the models
+        dropout_value: value to be set for the dropout layer
+        img_shape: shape of each ct-scan (or a mask)
+        shufffle_bool: enable or disable shuffling while training
+
+    Outputs:
+        returns the trained model and its corresponding history
+
+    """
     if model_type == "unet_w_bbone":
         backbone = 'densenet201'
         activation_fun = 'softmax'
@@ -112,7 +126,7 @@ def model_train(model_type:str,
         print('\nStarting the training ...\n')
         history= model.fit(train_X, train_Y, epochs=num_epochs, batch_size=batch, validation_data=(val_X, val_Y), shuffle=shuffle_bool)
 
-
+    # second
     elif model_type == "unet_wo_bbone":
         deconv_type='transpose'
         encode_sizes=[16, 32, 64, 128, 256]
@@ -138,6 +152,7 @@ def model_train(model_type:str,
     
     return model, history
 
+# start model training/learning
 trained_model, trained_model_hist = model_train(model_type="unet_w_bbone", 
                                                 num_classes=no_classes, 
                                                 lr=learn_rate, 
@@ -176,10 +191,13 @@ po.plot_truth_pred_3d(test_X,
                       slice_end=120
                       )
 
-# load model
-# loaded_model = po.model_load("unet_w_bbone", model_params_str, saved_models_path)
+# load the saved model
+load_model = False
+if load_model:
+    loaded_model = po.model_load("unet_w_bbone", model_params_str, saved_models_path)
 
-#@title
+######################################################################################################
+
 # extras
 # img_width = train_X[0].shape[0]
 # img_height = train_X[0].shape[1]

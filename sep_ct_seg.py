@@ -1,3 +1,4 @@
+# separates the ct-scans and corresponding masks from their respective folders to data_X and data_Y format
 import shutil
 import os
 

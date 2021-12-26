@@ -1,7 +1,13 @@
+# group all the segments of one colour (user-input) into one single segmentation file
+# this script requires 3D-slicer and should be placed in the same directory where 3D-slicer is installed
+# please refer to the documentation of 3D-slicer for more details
+
+# imports
 import slicer
 import os
 import shutil
 
+# functions 
 def load_model(path, color):
 	bone_model = slicer.util.loadModel(path)
 	bone_model.GetDisplayNode().SetColor(color_vals[color][0], color_vals[color][1], color_vals[color][2])
@@ -68,6 +74,18 @@ def clear_scene():
 
 # main
 def main(color:str):
+	"""
+	Performs the combination of all the segments for a particular color and from the corresponding folder of the sample, 
+	removes the individual segments and generates the single segmentation file in the nifti format and copies it to the specified folder
+
+	Inputs:
+		color: the color whose sgements need to be combined (RGBY)
+
+	Outputs:
+		returns nothing, however removes all the individual segments and generates the final combined segmentation in the given folder
+		updates the user accordingly with clarifying print statements
+
+	"""
 	# clear_console()
 	clear_scene()
 	slicer.util.selectModule("Data")
@@ -115,12 +133,11 @@ def main(color:str):
 			print(f'Success: {folder_num}-{color}!')
 			print('------------------------\n')
 
-		# src_dir = ctvol_path
-		# tgt_dir = "D:\\process\\grouping_done_ct_scans\\"
-		# shutil.move(src_dir, tgt_dir)
-		# print(f"\nFinished {folder_num}!")
-		# print('------------------------------------------------------------\n')
+		src_dir = ctvol_path
+		tgt_dir = "D:\\process\\grouping_done_ct_scans\\"
+		shutil.move(src_dir, tgt_dir)
+		print(f"\nFinished {folder_num}!")
+		print('------------------------------------------------------------\n')
 
 if __name__ == '__main__':
 	main()
-
