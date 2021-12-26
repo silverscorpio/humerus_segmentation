@@ -1,4 +1,6 @@
 # separates the ct-scans and corresponding masks from their respective folders to data_X and data_Y format
+
+# imports
 import shutil
 import os
 

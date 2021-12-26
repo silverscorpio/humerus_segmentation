@@ -1,3 +1,5 @@
+# builds the 3D unet from scratch using the original Ronneberger paper
+
 # imports
 from tensorflow.keras.layers import Conv3D, BatchNormalization, MaxPooling3D, Input, UpSampling3D, Concatenate, Dropout, Conv3DTranspose
 from tensorflow.keras import Model

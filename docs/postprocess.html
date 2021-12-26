@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module postprocess</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>postprocess</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/hello/Desktop/thesis_semseg/fail/code_unet/postprocess.py">/Users/hello/Desktop/thesis_semseg/fail/code_unet/postprocess.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;post-processing&nbsp;applied&nbsp;to&nbsp;the&nbsp;ct-scans&nbsp;and&nbsp;the&nbsp;masks&nbsp;prior&nbsp;to&nbsp;the&nbsp;model&nbsp;training</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="nibabel.html">nibabel</a><br>
+<a href="numpy.html">numpy</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="pickle.html">pickle</a><br>
+<a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+<a href="preprocess.html">preprocess</a><br>
+</td><td width="25%" valign=top><a href="shutil.html">shutil</a><br>
+<a href="segmentation_models_3D.html">segmentation_models_3D</a><br>
+<a href="tensorflow.html">tensorflow</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-convert_to_nifti"><strong>convert_to_nifti</strong></a>(preds_3d: &lt;built-in function array&gt;, model_name: str, save_model_dir: str)</dt><dd><tt>generates&nbsp;the&nbsp;nifti&nbsp;file&nbsp;for&nbsp;the&nbsp;predictions&nbsp;(predicted&nbsp;masks)&nbsp;in&nbsp;the&nbsp;given&nbsp;directory<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;preds_3d:&nbsp;the&nbsp;3d&nbsp;dimensional&nbsp;predicted&nbsp;mask<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_name:&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;model&nbsp;for&nbsp;which&nbsp;the&nbsp;mask&nbsp;needs&nbsp;to&nbsp;be&nbsp;converted&nbsp;to&nbsp;the&nbsp;nifti&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;&nbsp;save_model_dir:&nbsp;the&nbsp;directory&nbsp;where&nbsp;the&nbsp;nifti&nbsp;file&nbsp;needs&nbsp;to&nbsp;be&nbsp;saved<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;generates&nbsp;the&nbsp;nifti&nbsp;file&nbsp;and&nbsp;saves&nbsp;it&nbsp;to&nbsp;the&nbsp;given&nbsp;directory&nbsp;and&nbsp;prints&nbsp;the&nbsp;succesful&nbsp;generation&nbsp;and&nbsp;saving&nbsp;message</tt></dd></dl>
+ <dl><dt><a name="-get_labels"><strong>get_labels</strong></a>(true_masks, pred_masks)</dt><dd><tt>Fetches&nbsp;the&nbsp;labels&nbsp;of&nbsp;the&nbsp;original&nbsp;and&nbsp;the&nbsp;predicted&nbsp;masks&nbsp;for&nbsp;comparison<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;true_masks:&nbsp;the&nbsp;original&nbsp;Y&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pred_masks:&nbsp;the&nbsp;predicted&nbsp;masks<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;prints&nbsp;the&nbsp;true&nbsp;and&nbsp;predicted&nbsp;labels&nbsp;in&nbsp;the&nbsp;given&nbsp;corresponding&nbsp;masks</tt></dd></dl>
+ <dl><dt><a name="-model_load"><strong>model_load</strong></a>(model_type: str, model_name: str, save_model_dir: str)</dt><dd><tt>loads&nbsp;the&nbsp;model&nbsp;and&nbsp;model&nbsp;history&nbsp;from&nbsp;the&nbsp;given&nbsp;location<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_type:&nbsp;model&nbsp;with&nbsp;backbone&nbsp;(for&nbsp;encoder)&nbsp;(needs&nbsp;custom&nbsp;loss&nbsp;and&nbsp;metrics&nbsp;to&nbsp;be&nbsp;loaded)&nbsp;or&nbsp;not&nbsp;(wiht&nbsp;scratch)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_name:&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;model&nbsp;in&nbsp;the&nbsp;format&nbsp;as&nbsp;specified&nbsp;above<br>
+&nbsp;&nbsp;&nbsp;&nbsp;save_model_dir:&nbsp;directory&nbsp;path&nbsp;where&nbsp;the&nbsp;model&nbsp;has&nbsp;to&nbsp;be&nbsp;saved<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loads&nbsp;the&nbsp;model&nbsp;and&nbsp;its&nbsp;history&nbsp;from&nbsp;the&nbsp;specified&nbsp;location&nbsp;and&nbsp;prints&nbsp;a&nbsp;statement&nbsp;on&nbsp;successful&nbsp;loading</tt></dd></dl>
+ <dl><dt><a name="-model_plots"><strong>model_plots</strong></a>(model_history, fig_size=(10, 10))</dt><dd><tt>plots&nbsp;the&nbsp;loss&nbsp;function&nbsp;and&nbsp;the&nbsp;metrics&nbsp;for&nbsp;the&nbsp;trained&nbsp;model<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_history:&nbsp;the&nbsp;history&nbsp;of&nbsp;the&nbsp;trained&nbsp;model<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fig_size:&nbsp;the&nbsp;size&nbsp;of&nbsp;the&nbsp;plots<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plots&nbsp;the&nbsp;required&nbsp;data&nbsp;of&nbsp;the&nbsp;trained&nbsp;model</tt></dd></dl>
+ <dl><dt><a name="-model_predictions"><strong>model_predictions</strong></a>(model_name: str, model, test_X, test_Y_cat, save_model_dir: str, make_nifti: bool = False)</dt><dd><tt>makes&nbsp;the&nbsp;predictions&nbsp;for&nbsp;the&nbsp;test&nbsp;data&nbsp;using&nbsp;the&nbsp;trained&nbsp;model<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_name:&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;model&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model:&nbsp;the&nbsp;model&nbsp;using&nbsp;which&nbsp;the&nbsp;predictions&nbsp;would&nbsp;be&nbsp;made<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_X:&nbsp;ct_scans&nbsp;in&nbsp;the&nbsp;test&nbsp;dataset&nbsp;(X)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_Y:&nbsp;masks&nbsp;in&nbsp;the&nbsp;test&nbsp;dataset&nbsp;(Y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;save_model_dir:&nbsp;directory&nbsp;where&nbsp;the&nbsp;model&nbsp;is&nbsp;saved<br>
+&nbsp;&nbsp;&nbsp;&nbsp;make_nifti:&nbsp;enable&nbsp;or&nbsp;disable&nbsp;nifti&nbsp;file&nbsp;generation&nbsp;for&nbsp;the&nbsp;predicted&nbsp;masks<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;test&nbsp;masks,&nbsp;predicted&nbsp;masks&nbsp;in&nbsp;categorical&nbsp;form&nbsp;and&nbsp;the&nbsp;predicted&nbsp;masks&nbsp;in&nbsp;the&nbsp;3D&nbsp;form&nbsp;and&nbsp;generates&nbsp;and&nbsp;saves&nbsp;nifti&nbsp;if&nbsp;enabled</tt></dd></dl>
+ <dl><dt><a name="-plot_truth_pred_3d"><strong>plot_truth_pred_3d</strong></a>(test_X, test_Y_3d, preds_3d, sample_ind: int, slice_start: int, slice_end: int)</dt><dd><tt>plots&nbsp;the&nbsp;volume&nbsp;(ct-scan),&nbsp;mask&nbsp;(ground&nbsp;truth)&nbsp;and&nbsp;the&nbsp;corresponding&nbsp;masks&nbsp;in&nbsp;the&nbsp;3D&nbsp;form<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_X:&nbsp;ct-scan&nbsp;in&nbsp;the&nbsp;test&nbsp;dataset&nbsp;(X)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_Y_3D:&nbsp;mask&nbsp;in&nbsp;the&nbsp;test&nbsp;dataset&nbsp;in&nbsp;the&nbsp;3D&nbsp;form&nbsp;(Y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;preds_3D:&nbsp;predictions&nbsp;in&nbsp;the&nbsp;3D&nbsp;form&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sample_ind:&nbsp;required&nbsp;sample&nbsp;index<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slice_start:&nbsp;start&nbsp;value/index&nbsp;of&nbsp;the&nbsp;slice&nbsp;for&nbsp;plotting<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slice_end:&nbsp;end&nbsp;value/index&nbsp;of&nbsp;the&nbsp;slice&nbsp;for&nbsp;plotting<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plots&nbsp;the&nbsp;required&nbsp;ct-scan&nbsp;and&nbsp;its&nbsp;mask&nbsp;from&nbsp;the&nbsp;test&nbsp;data&nbsp;and&nbsp;corresponding&nbsp;prediction</tt></dd></dl>
+ <dl><dt><a name="-plot_truth_pred_cat"><strong>plot_truth_pred_cat</strong></a>(test_X, test_Y_cat, preds_cat, class_ind: int, sample_ind: int, slice_start: int, slice_end: int, fig_size: tuple = (6, 6))</dt><dd><tt>plots&nbsp;the&nbsp;volume&nbsp;(ct-scan),&nbsp;mask&nbsp;(ground&nbsp;truth)&nbsp;and&nbsp;the&nbsp;corresponding&nbsp;masks&nbsp;in&nbsp;the&nbsp;categorical&nbsp;form<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_X:&nbsp;ct-scan&nbsp;in&nbsp;the&nbsp;test&nbsp;dataset&nbsp;(X)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;test_Y_cat:&nbsp;mask&nbsp;in&nbsp;the&nbsp;test&nbsp;datasetin&nbsp;the&nbsp;categorical&nbsp;form(Y)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;preds_cat:&nbsp;predictions&nbsp;in&nbsp;the&nbsp;categorical&nbsp;form&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;class_ind:&nbsp;required&nbsp;class&nbsp;index<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sample_ind:&nbsp;required&nbsp;sample&nbsp;index<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slice_start:&nbsp;start&nbsp;value/index&nbsp;of&nbsp;the&nbsp;slice&nbsp;for&nbsp;plotting<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slice_end:&nbsp;end&nbsp;value/index&nbsp;of&nbsp;the&nbsp;slice&nbsp;for&nbsp;plotting<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fig_size:&nbsp;size&nbsp;of&nbsp;the&nbsp;plots<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plots&nbsp;the&nbsp;required&nbsp;ct-scan&nbsp;and&nbsp;its&nbsp;mask&nbsp;from&nbsp;the&nbsp;test&nbsp;data&nbsp;and&nbsp;corresponding&nbsp;prediction</tt></dd></dl>
+ <dl><dt><a name="-revert_categorical"><strong>revert_categorical</strong></a>(pred_cat)</dt><dd><tt>converts&nbsp;back&nbsp;from&nbsp;categorical<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pred_cat:&nbsp;the&nbsp;predictions&nbsp;as&nbsp;given&nbsp;by&nbsp;the&nbsp;trained&nbsp;model<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;predicted&nbsp;mask&nbsp;with&nbsp;the&nbsp;maximum&nbsp;value&nbsp;in&nbsp;the&nbsp;last&nbsp;axis&nbsp;(collapses&nbsp;the&nbsp;last&nbsp;dimension&nbsp;-&nbsp;reverts&nbsp;back&nbsp;from&nbsp;categorical)</tt></dd></dl>
+ <dl><dt><a name="-save_model_hist"><strong>save_model_hist</strong></a>(model_name: str, save_model_dir: str, train_model, train_model_hist)</dt><dd><tt>saves&nbsp;the&nbsp;model&nbsp;and&nbsp;model&nbsp;history&nbsp;at&nbsp;the&nbsp;given&nbsp;location<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_name:&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;model&nbsp;in&nbsp;the&nbsp;format&nbsp;as&nbsp;specified&nbsp;above<br>
+&nbsp;&nbsp;&nbsp;&nbsp;save_model_dir:&nbsp;directory&nbsp;path&nbsp;where&nbsp;the&nbsp;model&nbsp;has&nbsp;to&nbsp;be&nbsp;saved<br>
+&nbsp;&nbsp;&nbsp;&nbsp;train_model:&nbsp;the&nbsp;trained&nbsp;model&nbsp;that&nbsp;needs&nbsp;to&nbsp;be&nbsp;saved<br>
+&nbsp;&nbsp;&nbsp;&nbsp;train_model_hist:&nbsp;the&nbsp;model&nbsp;history&nbsp;corresponding&nbsp;to&nbsp;the&nbsp;trained&nbsp;model<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;saves&nbsp;the&nbsp;model&nbsp;and&nbsp;its&nbsp;history&nbsp;at&nbsp;the&nbsp;specified&nbsp;location&nbsp;and&nbsp;prints&nbsp;a&nbsp;statement&nbsp;on&nbsp;successful&nbsp;saving</tt></dd></dl>
+</td></tr></table>
+</body></html>

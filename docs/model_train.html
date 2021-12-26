@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module model_train</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>model_train</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/hello/Desktop/thesis_semseg/fail/code_unet/model_train.py">/Users/hello/Desktop/thesis_semseg/fail/code_unet/model_train.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;model&nbsp;building&nbsp;and&nbsp;training&nbsp;(two&nbsp;methods)</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="segmentation_models_3D.html">segmentation_models_3D</a><br>
+</td><td width="25%" valign=top><a href="tensorflow.html">tensorflow</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-model_train"><strong>model_train</strong></a>(train_val_data: tuple, model_type: str, num_classes: int, lr: float, batch: int, num_epochs: int, dropout_value: float, img_shape: tuple, shuffle_bool: bool)</dt><dd><tt>Performs&nbsp;the&nbsp;model&nbsp;training&nbsp;depending&nbsp;on&nbsp;the&nbsp;chosen&nbsp;method&nbsp;(transfer&nbsp;learning&nbsp;(1)&nbsp;or&nbsp;unet&nbsp;from&nbsp;scratch)<br>
+&nbsp;<br>
+Inputs:&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;train_val_data:&nbsp;training&nbsp;and&nbsp;validation&nbsp;datasets<br>
+&nbsp;&nbsp;&nbsp;&nbsp;model_type:&nbsp;unet&nbsp;with&nbsp;backbone&nbsp;for&nbsp;the&nbsp;encode&nbsp;part&nbsp;or&nbsp;unet&nbsp;from&nbsp;scratch<br>
+&nbsp;&nbsp;&nbsp;&nbsp;num_classes:&nbsp;the&nbsp;number&nbsp;of&nbsp;classes&nbsp;in&nbsp;each&nbsp;sample<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lr:&nbsp;learning&nbsp;rate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;batch:&nbsp;batch&nbsp;size&nbsp;for&nbsp;training<br>
+&nbsp;&nbsp;&nbsp;&nbsp;num_epochs:&nbsp;number&nbsp;of&nbsp;epochs&nbsp;for&nbsp;training&nbsp;the&nbsp;models<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dropout_value:&nbsp;value&nbsp;to&nbsp;be&nbsp;set&nbsp;for&nbsp;the&nbsp;dropout&nbsp;layer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;img_shape:&nbsp;shape&nbsp;of&nbsp;each&nbsp;ct-scan&nbsp;(or&nbsp;a&nbsp;mask)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;shufffle_bool:&nbsp;enable&nbsp;or&nbsp;disable&nbsp;shuffling&nbsp;while&nbsp;training<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;trained&nbsp;model&nbsp;and&nbsp;its&nbsp;corresponding&nbsp;history</tt></dd></dl>
+</td></tr></table>
+</body></html>

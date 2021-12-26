@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module preprocess</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>preprocess</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/hello/Desktop/thesis_semseg/fail/code_unet/preprocess.py">/Users/hello/Desktop/thesis_semseg/fail/code_unet/preprocess.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;pre-processing&nbsp;applied&nbsp;to&nbsp;the&nbsp;ct-scans&nbsp;and&nbsp;the&nbsp;masks&nbsp;prior&nbsp;to&nbsp;the&nbsp;model&nbsp;training</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="nibabel.html">nibabel</a><br>
+<a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+</td><td width="25%" valign=top><a href="tensorflow.html">tensorflow</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-expand_categ_seg"><strong>expand_categ_seg</strong></a>(ct_seg)</dt><dd><tt>expands&nbsp;the&nbsp;mask&nbsp;dimension&nbsp;to&nbsp;make&nbsp;it&nbsp;compatible&nbsp;for&nbsp;training&nbsp;purposes&nbsp;and&nbsp;converts&nbsp;it&nbsp;to&nbsp;categorical&nbsp;(one-hot&nbsp;encoding)<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ct_seg:&nbsp;the&nbsp;mask<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;expanded&nbsp;mask&nbsp;with&nbsp;additional&nbsp;dimension&nbsp;on&nbsp;the&nbsp;last&nbsp;axis&nbsp;and&nbsp;in&nbsp;the&nbsp;one-hot&nbsp;encoding</tt></dd></dl>
+ <dl><dt><a name="-expand_dim_ct"><strong>expand_dim_ct</strong></a>(ct_vol)</dt><dd><tt>expands&nbsp;the&nbsp;ct-scan&nbsp;dimension&nbsp;to&nbsp;make&nbsp;it&nbsp;compatible&nbsp;for&nbsp;training&nbsp;purposes<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ct_vol:&nbsp;the&nbsp;ct-scan<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;expanded&nbsp;ct-scan&nbsp;with&nbsp;additional&nbsp;dimension&nbsp;on&nbsp;the&nbsp;last&nbsp;axis</tt></dd></dl>
+ <dl><dt><a name="-generate_data"><strong>generate_data</strong></a>(X_data, Y_data, train_ratio: float)</dt><dd><tt>generate&nbsp;the&nbsp;different&nbsp;data&nbsp;sets&nbsp;based&nbsp;on&nbsp;the&nbsp;split&nbsp;ratio<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;original&nbsp;datasets&nbsp;which&nbsp;need&nbsp;to&nbsp;be&nbsp;split<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;splitted&nbsp;datasets</tt></dd></dl>
+ <dl><dt><a name="-get_all_data"><strong>get_all_data</strong></a>(paths: tuple, preprocess: bool = True, expand_dim: bool = True, verbose: bool = False, norm_option: int = 1)</dt><dd><tt>Loads&nbsp;all&nbsp;the&nbsp;ct-scans&nbsp;and&nbsp;masks,&nbsp;pre-processes&nbsp;them&nbsp;and&nbsp;returns&nbsp;the&nbsp;final&nbsp;X&nbsp;and&nbsp;Y&nbsp;data&nbsp;for&nbsp;training&nbsp;purposes<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;paths:&nbsp;path&nbsp;to&nbsp;the&nbsp;directory&nbsp;from&nbsp;where&nbsp;the&nbsp;ct-scans&nbsp;need&nbsp;to&nbsp;be&nbsp;loaded/picked&nbsp;up<br>
+&nbsp;&nbsp;&nbsp;&nbsp;preprocess:&nbsp;boolean&nbsp;to&nbsp;enable&nbsp;or&nbsp;disable&nbsp;the&nbsp;pre-processing&nbsp;of&nbsp;the&nbsp;ct-scans&nbsp;and&nbsp;masks<br>
+&nbsp;&nbsp;&nbsp;&nbsp;expand_dim:&nbsp;boolean&nbsp;to&nbsp;enable&nbsp;the&nbsp;expansion&nbsp;of&nbsp;the&nbsp;dimensions&nbsp;of&nbsp;the&nbsp;ct-scans&nbsp;and&nbsp;masks<br>
+&nbsp;&nbsp;&nbsp;&nbsp;verbose:&nbsp;if&nbsp;status&nbsp;of&nbsp;each&nbsp;loaded&nbsp;scan&nbsp;(while&nbsp;it&nbsp;is&nbsp;loaded)&nbsp;is&nbsp;required&nbsp;or&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;norm_option:&nbsp;normalization&nbsp;option&nbsp;for&nbsp;the&nbsp;ct-scans</tt></dd></dl>
+ <dl><dt><a name="-get_prop"><strong>get_prop</strong></a>(x)</dt><dd><tt>returns&nbsp;the&nbsp;basic&nbsp;properties&nbsp;of&nbsp;a&nbsp;numpy&nbsp;array&nbsp;or&nbsp;the&nbsp;type&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;a&nbsp;nupmy&nbsp;array<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;array-like<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;prints&nbsp;various&nbsp;properties&nbsp;like&nbsp;dtype,&nbsp;shape&nbsp;etc.</tt></dd></dl>
+ <dl><dt><a name="-nominal_labels"><strong>nominal_labels</strong></a>(unique_vals: list)</dt><dd><tt>converts&nbsp;the&nbsp;categorial&nbsp;labels&nbsp;to&nbsp;the&nbsp;color&nbsp;labels&nbsp;(only&nbsp;for&nbsp;reference&nbsp;and&nbsp;not&nbsp;for&nbsp;training)<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;unique_vals:&nbsp;the&nbsp;unique&nbsp;values&nbsp;present&nbsp;in&nbsp;the&nbsp;numpy&nbsp;array<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;using&nbsp;the&nbsp;color&nbsp;dicitonary&nbsp;described&nbsp;above,&nbsp;it&nbsp;returns&nbsp;the&nbsp;corresponding&nbsp;numerical&nbsp;value&nbsp;for&nbsp;that&nbsp;color</tt></dd></dl>
+ <dl><dt><a name="-plot_all_data"><strong>plot_all_data</strong></a>(X_data: &lt;built-in function array&gt;, Y_data: &lt;built-in function array&gt;, sample_start: int, sample_end: int, slices_start: int, slices_end: int, class_ind: int)</dt><dd><tt>plots&nbsp;the&nbsp;volumes&nbsp;and&nbsp;masks&nbsp;based&nbsp;on&nbsp;the&nbsp;original&nbsp;datasets&nbsp;for&nbsp;multiple&nbsp;samples&nbsp;together<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;X_data:&nbsp;original&nbsp;x&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Y_data:&nbsp;original&nbsp;y&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sample_start:&nbsp;first/start&nbsp;sample&nbsp;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sample_end:&nbsp;end&nbsp;sample&nbsp;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slices_start:&nbsp;start&nbsp;index&nbsp;for&nbsp;the&nbsp;required&nbsp;slice&nbsp;(3rd&nbsp;dimension)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slices_end:&nbsp;end&nbsp;index&nbsp;for&nbsp;the&nbsp;required&nbsp;slice&nbsp;(3rd&nbsp;dimension)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;class_ind:&nbsp;class&nbsp;index&nbsp;value&nbsp;(4&nbsp;colors&nbsp;and&nbsp;1&nbsp;background,&nbsp;please&nbsp;refer&nbsp;to&nbsp;the&nbsp;color&nbsp;dictionary)<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plots&nbsp;the&nbsp;volumes&nbsp;and&nbsp;masks&nbsp;for&nbsp;the&nbsp;specified&nbsp;samples&nbsp;for&nbsp;the&nbsp;required&nbsp;slices&nbsp;and&nbsp;given&nbsp;class&nbsp;index</tt></dd></dl>
+ <dl><dt><a name="-plot_vols_masks"><strong>plot_vols_masks</strong></a>(X_data: &lt;built-in function array&gt;, Y_data: &lt;built-in function array&gt;, vol_ind: int, slice_index: int, class_ind: int)</dt><dd><tt>plots&nbsp;the&nbsp;volumes&nbsp;and&nbsp;masks&nbsp;based&nbsp;on&nbsp;the&nbsp;original&nbsp;datasets&nbsp;for&nbsp;one&nbsp;specific&nbsp;volume/sample<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;X_data:&nbsp;original&nbsp;x&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Y_data:&nbsp;original&nbsp;y&nbsp;data<br>
+&nbsp;&nbsp;&nbsp;&nbsp;vol_ind:&nbsp;the&nbsp;index&nbsp;of&nbsp;the&nbsp;required&nbsp;sample<br>
+&nbsp;&nbsp;&nbsp;&nbsp;slice_ind:&nbsp;index&nbsp;for&nbsp;the&nbsp;required&nbsp;slice&nbsp;(3rd&nbsp;dimension)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;class_ind:&nbsp;class&nbsp;index&nbsp;value&nbsp;(4&nbsp;colors&nbsp;and&nbsp;1&nbsp;background,&nbsp;refer&nbsp;to&nbsp;the&nbsp;color&nbsp;dictionary)<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;plots&nbsp;the&nbsp;volumes&nbsp;and&nbsp;masks</tt></dd></dl>
+ <dl><dt><a name="-preprocess_ct"><strong>preprocess_ct</strong></a>(ct_scan: &lt;built-in function array&gt;, norm_option: int = 'standard_norm')</dt><dd><tt>Pre-processes&nbsp;the&nbsp;ct-scans&nbsp;with&nbsp;respect&nbsp;to&nbsp;volume&nbsp;size,&nbsp;intensity&nbsp;(hounsfield&nbsp;unit&nbsp;HU),&nbsp;normalization<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ct_scan:&nbsp;the&nbsp;original&nbsp;ct-scan&nbsp;loaded&nbsp;using&nbsp;nibabel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;norm_option:&nbsp;option&nbsp;for&nbsp;normalization&nbsp;(default&nbsp;is&nbsp;the&nbsp;standard&nbsp;normalization)<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;pre-processed&nbsp;ct-scan</tt></dd></dl>
+ <dl><dt><a name="-preprocess_ct_seg"><strong>preprocess_ct_seg</strong></a>(ct_scan_seg: &lt;built-in function array&gt;)</dt><dd><tt>Pre-processes&nbsp;the&nbsp;masks&nbsp;with&nbsp;respect&nbsp;to&nbsp;volume&nbsp;size<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ct_scan_seg:&nbsp;the&nbsp;original&nbsp;mask&nbsp;loaded&nbsp;using&nbsp;nibabel<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;returns&nbsp;the&nbsp;pre-processed&nbsp;mask</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>color_dict</strong> = {0: 'background', 1: 'blue', 2: 'green', 3: 'red', 4: 'yellow'}<br>
+<strong>req_height_width</strong> = (128, 128)<br>
+<strong>resize_depth_shape</strong> = (144, 102, 320)<br>
+<strong>win_level</strong> = 400<br>
+<strong>win_wid</strong> = 1000</td></tr></table>
+</body></html>

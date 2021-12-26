@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module unet3d</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>unet3d</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/hello/Desktop/thesis_semseg/fail/code_unet/unet3d.py">/Users/hello/Desktop/thesis_semseg/fail/code_unet/unet3d.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;builds&nbsp;the&nbsp;3D&nbsp;unet&nbsp;from&nbsp;scratch&nbsp;using&nbsp;the&nbsp;original&nbsp;Ronneberger&nbsp;paper</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-build_unet"><strong>build_unet</strong></a>(img_shape: tuple, num_classes: int, dropout: float, upconv_type: str, encode_filter_size: list, decode_filter_size: list)</dt><dd><tt>Builds&nbsp;and&nbsp;returns&nbsp;the&nbsp;Unet&nbsp;architecture/model&nbsp;based&nbsp;on&nbsp;the&nbsp;Ronneberger&nbsp;Unet&nbsp;paper&nbsp;for&nbsp;medical&nbsp;image&nbsp;segmentation<br>
+using&nbsp;the&nbsp;given&nbsp;inputs<br>
+&nbsp;<br>
+Inputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ct_scan/mask&nbsp;shape<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;of&nbsp;classes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dropout&nbsp;layer&nbsp;value<br>
+&nbsp;&nbsp;&nbsp;&nbsp;decoder&nbsp;part&nbsp;deconvolution&nbsp;types:&nbsp;(upsampling&nbsp;or&nbsp;Conv3dTranspose)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;encoder&nbsp;filters&nbsp;sizes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;decoder&nbsp;filters&nbsp;sizes<br>
+&nbsp;<br>
+Outputs:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;built&nbsp;Unet&nbsp;model</tt></dd></dl>
+</td></tr></table>
+</body></html>
