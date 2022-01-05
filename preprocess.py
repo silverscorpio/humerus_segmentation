@@ -25,7 +25,7 @@ color_dict = {0: 'background',
               4: 'yellow'}
 
 # pre-processing functions
-def preprocess_ct(ct_scan:np.array, norm_option:int='standard_norm'):
+def preprocess_ct(ct_scan:np.array, norm_option:str):
     """
     Pre-processes the ct-scans with respect to volume size, intensity (hounsfield unit HU), normalization
 
@@ -141,7 +141,7 @@ def expand_categ_seg(ct_seg):
     vol_1ch_cat = tf.keras.utils.to_categorical(ct_seg, num_classes=5)
     return vol_1ch_cat
 
-def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbose:bool=False, norm_option:int=1):
+def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbose:bool=False, norm_option:str='standard_norm'):
     """
     Loads all the ct-scans and masks, pre-processes them and returns the final X and Y data for training purposes
 
