@@ -1,4 +1,4 @@
-# humerus_segmentation
+# Humerus Semantic Segmentation
 
 **Deep learning based semantic segmentation of the humerus fractures, Author - Rajat Sharma**
 
@@ -32,5 +32,3 @@
         - here too, several experiments were undertaken to assess and evaluate the model with different values for eg. learning rate etc.
     - preprocessing and postprocessing functions were implemented accordingly to the ct-scans and their masks
     - results were analysed and were reported
-
-*_for more detailed info, kindly refer to the thesis text_*
