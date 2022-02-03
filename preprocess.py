@@ -18,14 +18,10 @@ win_wid = 1000
 win_level = 400
 
 # conversion from categorical to numerical for the color labels
-color_dict = {0: 'background',
-              1: 'blue',
-              2: 'green',
-              3: 'red',
-              4: 'yellow'}
+color_dict = {0: "background", 1: "blue", 2: "green", 3: "red", 4: "yellow"}
 
 # pre-processing functions
-def preprocess_ct(ct_scan:np.array, norm_option:str):
+def preprocess_ct(ct_scan: np.array, norm_option: str):
     """
     Pre-processes the ct-scans with respect to volume size, intensity (hounsfield unit HU), normalization
 
@@ -38,7 +34,9 @@ def preprocess_ct(ct_scan:np.array, norm_option:str):
 
     """
     ct_scan.resize(resize_depth_shape, refcheck=False)
-    ct_scan = tf.image.resize(ct_scan, (req_height_width[0], req_height_width[1])).numpy()
+    ct_scan = tf.image.resize(
+        ct_scan, (req_height_width[0], req_height_width[1])
+    ).numpy()
     range_max = win_level + (win_wid / 2)
     range_min = win_level - (win_wid / 2)
 
@@ -46,15 +44,16 @@ def preprocess_ct(ct_scan:np.array, norm_option:str):
     ct_scan[ct_scan >= range_max] = range_max
 
     # different types of normalizations for the ct-scans
-    if norm_option == 'standard_norm':
+    if norm_option == "standard_norm":
         ct_scan = (ct_scan - range_min) / (range_max - range_min)
-    elif norm_option == 'mean_norm':
+    elif norm_option == "mean_norm":
         ct_scan = (ct_scan - np.mean(ct_scan)) / (range_max - range_min)
-    elif norm_option == 'z_norm':
+    elif norm_option == "z_norm":
         ct_scan = (ct_scan - np.mean(ct_scan)) / (np.std(ct_scan))
     return ct_scan
 
-def preprocess_ct_seg(ct_scan_seg:np.array):
+
+def preprocess_ct_seg(ct_scan_seg: np.array):
     """
     Pre-processes the masks with respect to volume size
 
@@ -66,12 +65,17 @@ def preprocess_ct_seg(ct_scan_seg:np.array):
 
     """
     ct_scan_seg.resize(resize_depth_shape, refcheck=False)
-    ct_scan_seg = tf.image.resize(ct_scan_seg, (req_height_width[0], req_height_width[1])).numpy().astype(np.uint64).astype(np.float32)
+    ct_scan_seg = (
+        tf.image.resize(ct_scan_seg, (req_height_width[0], req_height_width[1]))
+        .numpy()
+        .astype(np.uint64)
+        .astype(np.float32)
+    )
     return ct_scan_seg
-    
+
 
 # get the colors in segmentation
-def nominal_labels(unique_vals:list):
+def nominal_labels(unique_vals: list):
     """
     converts the categorial labels to the color labels (only for reference and not for training)
 
@@ -100,14 +104,16 @@ def get_prop(x):
     """
 
     if isinstance(x, np.ndarray):
-        print(f"""
+        print(
+            f"""
         shape: {x.shape}
         size: {x.size}
         num_dimension: {np.ndim(x)}
         dtype: {x.dtype}
         max_val: {np.max(x)}
         min_val: {np.min(x)}
-        """)
+        """
+        )
     else:
         print(f"type: {type(x)}")
 
@@ -123,8 +129,9 @@ def expand_dim_ct(ct_vol):
     Outputs:
         returns the expanded ct-scan with additional dimension on the last axis
     """
-    vol_exp_dim = np.stack((ct_vol,)*3, axis=-1)
+    vol_exp_dim = np.stack((ct_vol,) * 3, axis=-1)
     return vol_exp_dim
+
 
 # expand the dimensions of the segmentation and convert to categorical
 def expand_categ_seg(ct_seg):
@@ -141,7 +148,14 @@ def expand_categ_seg(ct_seg):
     vol_1ch_cat = tf.keras.utils.to_categorical(ct_seg, num_classes=5)
     return vol_1ch_cat
 
-def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbose:bool=False, norm_option:str='standard_norm'):
+
+def get_all_data(
+    paths: tuple,
+    preprocess: bool = True,
+    expand_dim: bool = True,
+    verbose: bool = False,
+    norm_option: str = "standard_norm",
+):
     """
     Loads all the ct-scans and masks, pre-processes them and returns the final X and Y data for training purposes
 
@@ -158,8 +172,8 @@ def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbos
     actual_loaded = 0
     for serial_no, folder in zip(range(1, len(folders) + 1), folders):
         actual_loaded += 1
-        ct_path = os.path.join(x_path, folder, folder + 'HRimage.nii.gz')
-        seg_path = os.path.join(y_path, folder, folder + 'HRimage_seg.nii')
+        ct_path = os.path.join(x_path, folder, folder + "HRimage.nii.gz")
+        seg_path = os.path.join(y_path, folder, folder + "HRimage_seg.nii")
 
         # ct_scan load
         ct_vol = nib.load(ct_path)
@@ -169,11 +183,11 @@ def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbos
             ct_vol_data = preprocess_ct(ct_vol_data, norm_option)
         if expand_dim:
             ct_vol_data = expand_dim_ct(ct_vol_data)
-        
+
         X_data.append(ct_vol_data)
-        
+
         # ct_scan mask load
-        ct_seg = nib.load(seg_path)        
+        ct_seg = nib.load(seg_path)
         ct_seg_data = ct_seg.get_fdata()
         ct_seg_data_unique = np.unique(ct_seg_data)
 
@@ -181,24 +195,26 @@ def get_all_data(paths:tuple, preprocess:bool=True, expand_dim:bool=True, verbos
             ct_seg_data = preprocess_ct_seg(ct_seg_data)
         if expand_dim:
             ct_seg_data = expand_categ_seg(ct_seg_data)
-            
-        
+
         Y_data.append(ct_seg_data)
 
         if verbose:
-            print(f"""
+            print(
+                f"""
             SERIAL NUMBER: {serial_no}:
                 Loaded: ct_volume {folder} | shape: {ct_vol_data.shape}
                 Loaded: ct_scan_seg {folder} | shape: {ct_seg_data.shape} | unique_vals : {ct_seg_data_unique} | colors: {nominal_labels(ct_seg_data_unique.astype(np.uint8))}\n
-            """)
+            """
+            )
     print(f"{actual_loaded} Volumes & Masks Loaded!")
     X_data = np.array(X_data)
     Y_data = np.array(Y_data)
 
     return X_data, Y_data
 
+
 # split the data
-def generate_data(X_data, Y_data, train_ratio:float):
+def generate_data(X_data, Y_data, train_ratio: float):
     """
     generate the different data sets based on the split ratio
 
@@ -208,12 +224,16 @@ def generate_data(X_data, Y_data, train_ratio:float):
     Outputs:
         returns the splitted datasets
     """
-    train_X, val_X, train_Y, val_Y = train_test_split(X_data, Y_data, train_size=train_ratio)
+    train_X, val_X, train_Y, val_Y = train_test_split(
+        X_data, Y_data, train_size=train_ratio
+    )
     return train_X, train_Y, val_X, val_Y
 
 
 # for plotting from the original combined datasets
-def plot_vols_masks(X_data:np.array, Y_data:np.array, vol_ind:int, slice_index:int, class_ind:int):
+def plot_vols_masks(
+    X_data: np.array, Y_data: np.array, vol_ind: int, slice_index: int, class_ind: int
+):
     """
     plots the volumes and masks based on the original datasets for one specific volume/sample
 
@@ -229,20 +249,29 @@ def plot_vols_masks(X_data:np.array, Y_data:np.array, vol_ind:int, slice_index:i
     """
     fig, ax = plt.subplots(1, 2, figsize=(4, 4))
     ax[0].imshow(X_data[vol_ind][:, :, slice_index])
-    ax[0].set_title(f'{vol_ind + 1}: Volume')
+    ax[0].set_title(f"{vol_ind + 1}: Volume")
     # plt.subplot(1, 3, 1)
     # plt.imshow(image)
     # plt.title('Volume')
 
     ax[1].imshow(Y_data[vol_ind][:, :, slice_index, class_ind])
-    ax[1].set_title(f'{vol_ind+ 1}: Mask')
+    ax[1].set_title(f"{vol_ind+ 1}: Mask")
     # plt.subplot(1, 3, 2)
     # plt.imshow(actual_gray)
     # plt.title('Mask')
     plt.tight_layout()
 
+
 # to check the pre-processed volumes and masks - for this the expand_dim above should be set to false (3d and not categorical)
-def plot_all_data(X_data:np.array, Y_data:np.array, sample_start:int, sample_end:int, slices_start:int, slices_end:int, class_ind:int):
+def plot_all_data(
+    X_data: np.array,
+    Y_data: np.array,
+    sample_start: int,
+    sample_end: int,
+    slices_start: int,
+    slices_end: int,
+    class_ind: int,
+):
     """
     plots the volumes and masks based on the original datasets for multiple samples together
 
