@@ -1,6 +1,6 @@
 # Humerus Semantic Segmentation
 
-**Deep learning based semantic segmentation of the humerus fractures, Author - Rajat Sharma**
+**Deep learning based semantic segmentation of the humerus fractures, Author - Rajat**
 
 - This repo consists of the code developed for the purpose of researching and developing a deep learning based method for semantic segmentation of the humerus fractures
 - the legend for the files present is as follows:
