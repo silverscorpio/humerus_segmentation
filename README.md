@@ -1,6 +1,6 @@
 # Humerus Semantic Segmentation
 
-**Deep learning based semantic segmentation of the humerus fractures, Author - Rajat**
+**Deep learning based semantic segmentation of the humerus fractures**
 
 - This repo consists of the code developed for the purpose of researching and developing a deep learning based method for semantic segmentation of the humerus fractures
 - the legend for the files present is as follows:
@@ -14,12 +14,11 @@
     - group_by_color (3d-Slicer): similar to the above, but can be done for a single color at a time (user-input)
     - generate_seg (3d-Slicer): combines all the segments of different colours into that single color and generates the corresponding segmentation 
     - organise_into_folders.py: organises the initial given data into proper folders consisting of STL files and ct-scans for easier working
-    - sep_ct_seg.py: separates the ct scans and corresponding masks into data_X and data_Y folders (described above)
-- although not really a pre-requisite, however, it is advised to be a bit familiar with the open source software, [3d-slicer](https://www.slicer.org/), would make it easier to actually understand what some of the above-mentioned 3d-slicer relevant scripts do. This is a major component of the thesis. 
+    - sep_ct_seg.py: separates the ct scans and corresponding masks into data_X and data_Y folders (described above) 
 - methodology: 
     - the original data that was given comprised of the STL files and the ct-scan (nifti format)
     - 40 samples were given with each sample consisting of STL files for different colors (RGBY) depending on which humerus bone segment is present
-    - the segments corresponding to a color had to be combined into one segment and then this segment was converted to a segmentation file (nifti) (mask)
+    - the segments corresponding to a color had to be combined into one segment and then this segment was converted to a segmentation file (nifti) (mask) (using the software [3d-slicer](https://www.slicer.org/)
     - afterwards the deep learnign pipeline was established using Tensorflow and Keras
     - the architecture that was chosen was the famous Unet
     - for this, two approaches were adopted
@@ -31,4 +30,4 @@
         - more fundamental with the goal being to build the unet model based on the above paper from scratch (encoder-decoder architecture)
         - here too, several experiments were undertaken to assess and evaluate the model with different values for eg. learning rate etc.
     - preprocessing and postprocessing functions were implemented accordingly to the ct-scans and their masks
-    - results were analysed and were reported
+    - 
